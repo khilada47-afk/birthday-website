@@ -107,7 +107,19 @@
     Made with ❤️ for AFIFA AKHTAR. <span class="muted">Edit names, dates, and photos to customize.</span>
   </footer>
 
-  <audio id="audio" preload="auto" src="assets/birthday.mp3"></audio>
+  <audio id="audio" autoplay loop muted playsinline>
+  <source src="assets/birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // पहली user interaction पर unmute
+  document.addEventListener("click", () => {
+    const audio = document.getElementById("audio");
+    audio.muted = false;
+    audio.play();
+  });
+</script>
+
 
   <script>
     // ---- Personalized Names (already set) ----

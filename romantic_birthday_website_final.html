@@ -1,0 +1,216 @@
+<!--
+  Personalized single-file birthday microsite for AFIFA AKHTAR — Sender: SHAVEZ HASAN
+  Instructions (also in chat):
+    1) Put your images (from your phone) in a folder named `assets` next to this HTML file and name them:
+         assets/1.jpg, assets/2.jpg, assets/3.jpg, assets/4.jpg, assets/5.jpg, assets/5.jpg
+    2) Put your audio file (MP3) as: assets/birthday.mp3
+    3) Open the file on mobile using one of the methods explained below in the chat section.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, AFIFA AKHTAR 🎂💖</title>
+  <meta name="description" content="A cute, romantic birthday microsite with timeline, gallery, confetti, and background music — all in one file. Edit text + images and share!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0f0f14; --panel:#171722; --soft:#1f2030; --acc:#ff6aa6; --acc-2:#7cf1c3; --text:#f3f5f7; --muted:#aab2c2; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(1200px 800px at 80% -10%, #251a2d 0%, rgba(15,15,20,0) 70%), radial-gradient(900px 700px at -10% 110%, #0f2330 0%, rgba(15,15,20,0) 70%), var(--bg); color:var(--text); font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    a{color:var(--acc)}
+    .container{max-width:1100px;margin:auto;padding:22px}
+    .hero{position:relative;min-height:80vh;display:grid;place-items:center;text-align:center}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08);backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius:24px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+    .title{font-family:"Great Vibes", cursive; font-size: clamp(40px, 8vw, 92px); line-height:1; margin:0; color:#fff}
+    .subtitle{font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted)}
+    .btn{appearance:none;border:none;cursor:pointer;border-radius:999px;padding:14px 20px;font-weight:700; transition:.2s transform ease, .2s box-shadow ease;}
+    .btn-primary{background:linear-gradient(90deg, var(--acc), #ff9ec3); color:#230913; box-shadow:0 10px 28px rgba(255,106,166,.35)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2); color:var(--text)}
+    .btn:hover{transform:translateY(-1px)}
+    .stack{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;width:16px;height:16px;background:var(--acc);transform:rotate(45deg);opacity:.7;animation:float 6s linear infinite}
+    .heart::before,.heart::after{content:"";position:absolute;width:16px;height:16px;background:var(--acc);border-radius:50%}
+    .heart::before{left:-8px}
+    .heart::after{top:-8px}
+    @keyframes float{0%{transform:translateY(0) rotate(45deg)}100%{transform:translateY(-120vh) rotate(45deg)}}
+    section{scroll-margin-top:80px}
+    .section-title{font-size:clamp(22px, 4vw, 36px); margin:0 0 16px 0}
+    .muted{color:var(--muted)}
+    .timeline{display:grid;gap:16px}
+    .t-card{background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:18px; display:grid; gap:6px}
+    .t-card h4{margin:0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .g-item{grid-column:span 4; border-radius:16px; overflow:hidden; position:relative}
+    .g-item img{width:100%;height:100%;object-fit:cover;display:block}
+    .g-item.large{grid-column:span 8}
+    .letter{background:var(--soft); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:22px; line-height:1.8}
+    .player{display:flex;align-items:center;gap:12px}
+    .range{width:160px}
+    footer{opacity:.8; font-size:14px; text-align:center; padding:32px}
+    @media (max-width:900px){ .g-item{grid-column:span 6} .g-item.large{grid-column:span 12} }
+    @media (max-width:600px){ .g-item{grid-column:span 12} }
+  </style>
+</head>
+<body>
+  <div class="hero container">
+    <div class="hearts" id="hearts"></div>
+    <div class="card">
+      <p class="subtitle">Happy Birthday</p>
+      <h1 class="title" id="heroName">AFIFA AKHTAR 💘</h1>
+      <p class="muted">Another lap around the sun — more memories, more smiles, more us.</p>
+      <div class="stack" style="margin-top:14px">
+        <button class="btn btn-primary" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">Our Story</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Gallery</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('letter').scrollIntoView({behavior:'smooth'})">Open Letter</button>
+        <button class="btn btn-ghost" id="confettiBtn">🎉 Confetti</button>
+      </div>
+      <div style="margin-top:18px" class="player">
+        <button class="btn btn-primary" id="playBtn">▶︎ Play Song</button>
+        <input type="range" min="0" max="1" step="0.01" value="0.7" class="range" id="vol"/>
+        <span class="muted" id="songStatus">Paused</span>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <section id="gallery" class="container" style="margin-top:36px">
+    <h2 class="section-title">Photo Memories 📸</h2>
+    <p class="muted">Replace the images with your own — the layout adapts automatically.</p>
+    <div class="grid">
+      <a class="g-item large" href="assets/1.jpg" target="_blank"><img src="assets/1.jpg" alt="Memory 1"></a>
+      <a class="g-item" href="assets/2.jpg" target="_blank"><img src="assets/2.jpg" alt="Memory 2"></a>
+      <a class="g-item" href="assets/3.jpg" target="_blank"><img src="assets/3.jpg" alt="Memory 3"></a>
+      <a class="g-item" href="assets/4.jpg" target="_blank"><img src="assets/4.jpg" alt="Memory 4"></a>
+      <a class="g-item large" href="assets/5.jpg" target="_blank"><img src="assets/5.jpg" alt="Memory 5"></a>
+      <a class="g-item" href="assets/5.jpg" target="_blank"><img src="assets/5.jpg" alt="Memory 6"></a>
+    </div>
+  </section>
+
+  <section id="letter" class="container" style="margin-top:36px">
+    <h2 class="section-title">An Open Letter 💌</h2>
+    <div class="letter" contenteditable="true">
+      <p>My dearest <b id="letterName">AFIFA AKHTAR</b>,</p>
+      <p>On your birthday, I just want to say thank you — for the laughter, the patience, the tiny moments, and the big ones too. You make ordinary days feel like celebrations.</p>
+      <p>Here’s to more sunsets, more coffee dates, and a lifetime of inside jokes. I’m lucky to love you. Happy Birthday! 🎂💞</p>
+      <p>Forever yours,<br/>— <span id="senderName">SHAVEZ HASAN</span></p>
+    </div>
+    <p class="muted" style="margin-top:6px">Tip: you can click and edit this letter right here, then press Ctrl/Cmd+S to save the page.</p>
+  </section>
+
+  
+
+  <footer>
+    Made with ❤️ for AFIFA AKHTAR. <span class="muted">Edit names, dates, and photos to customize.</span>
+  </footer>
+
+  <audio id="audio" preload="auto" src="assets/birthday.mp3"></audio>
+
+  <script>
+    // ---- Personalized Names (already set) ----
+    const PERSON_NAME = 'AFIFA AKHTAR';
+    const SENDER_NAME = 'SHAVEZ HASAN';
+
+    document.getElementById('heroName').textContent = PERSON_NAME + ' 💘';
+    document.getElementById('letterName').textContent = PERSON_NAME;
+    document.getElementById('senderName').textContent = SENDER_NAME;
+    document.getElementById('footerName')?.textContent && (document.getElementById('footerName').textContent = PERSON_NAME);
+
+    // ---- Hearts animation ----
+    const hearts = document.getElementById('hearts');
+    function spawnHeart(){
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.bottom = '-20px';
+      el.style.animationDuration = (4 + Math.random()*4) + 's';
+      el.style.opacity = .4 + Math.random()*0.6;
+      hearts.appendChild(el);
+      setTimeout(()=> el.remove(), 8000);
+    }
+    setInterval(spawnHeart, 300);
+
+    // ---- Confetti (minimal, no libraries) ----
+    const confettiBtn = document.getElementById('confettiBtn');
+    confettiBtn.addEventListener('click', ()=>{
+      for(let i=0;i<140;i++){
+        const c = document.createElement('div');
+        c.style.position='fixed';
+        c.style.left = Math.random()*100 + 'vw';
+        c.style.top = '-10px';
+        c.style.width = '8px'; c.style.height='14px';
+        c.style.background = `hsl(${Math.random()*360}, 90%, 60%)`;
+        c.style.transform = `rotate(${Math.random()*60-30}deg)`;
+        c.style.opacity = .9;
+        c.style.pointerEvents='none';
+        c.style.transition = 'transform 1.2s ease-in, top 1.2s ease-in';
+        document.body.appendChild(c);
+        requestAnimationFrame(()=>{
+          c.style.top = '110vh';
+          c.style.transform += ` translateY(${Math.random()*60}px)`;
+        });
+        setTimeout(()=> c.remove(), 1400);
+      }
+    });
+
+    // ---- Wishes localStorage ----
+    const wishForm = document.getElementById('wishForm');
+    const wishesEl = document.getElementById('wishes');
+    const STORAGE_KEY = 'birthday-wishes-v1';
+
+    function renderWishes(){
+      wishesEl.innerHTML = '';
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      items.forEach(({name,msg,ts})=>{
+        const d = new Date(ts);
+        const el = document.createElement('div');
+        el.className = 't-card';
+        el.innerHTML = `<h4>${name} <span class="muted">— ${d.toLocaleString()}</span></h4><p>${msg}</p>`;
+        wishesEl.appendChild(el);
+      })
+    }
+    renderWishes();
+
+    wishForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const name = document.getElementById('wishName').value.trim();
+      const msg = document.getElementById('wishMsg').value.trim();
+      if(!name||!msg) return;
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      items.unshift({name,msg,ts:Date.now()});
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(0,100)));
+      wishForm.reset();
+      renderWishes();
+    });
+
+    document.getElementById('clearWishes').addEventListener('click', ()=>{
+      if(confirm('Clear all wishes?')){ localStorage.removeItem(STORAGE_KEY); renderWishes(); }
+    })
+
+    // ---- Music Player ----
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('playBtn');
+    const vol = document.getElementById('vol');
+    const songStatus = document.getElementById('songStatus');
+
+    playBtn.addEventListener('click', async ()=>{
+      try{
+        if(audio.paused){ await audio.play(); playBtn.textContent='⏸︎ Pause'; songStatus.textContent='Playing'; }
+        else { audio.pause(); playBtn.textContent='▶︎ Play Song'; songStatus.textContent='Paused'; }
+      }catch(err){ alert('Add a valid MP3 file first (place assets/birthday.mp3). Autoplay without user interaction is blocked by browsers.'); }
+    })
+    vol.addEventListener('input', ()=> audio.volume = +vol.value);
+
+    // Optional: auto-reduce music on scroll to letter
+    const letter = document.getElementById('letter');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ audio.volume = Math.max(0.2, audio.volume-0.2);} })
+    }, {threshold:0.6});
+    io.observe(letter);
+  </script>
+</body>
+</html>
